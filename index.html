@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecuaciones Diferenciales</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- MathJax para renderizar fórmulas matemáticas elegantes -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Pagina Web Inicial</h1>
+        <h2>Simulación de Enfriamiento de un Servidor </h2>
+        <h2>(Método de Euler Explícito)</h2>
+    </header>
+
+    <main>
+        <!-- SECCIÓN 1: ENUNCIADO DEL PROBLEMA -->
+        <section class="card">
+            <h2>1. Caso Aplicado: Enfriamiento de un Servidor</h2>
+            <p>
+                Un servidor en un centro de datos se sobrecalienta tras un pico de procesamiento. Al activar el sistema de refrigeración, la tasa de variación de la temperatura $T$ respecto al tiempo $t$ (en minutos) se modela mediante la Ley de Enfriamiento de Newton:
+            </p>
+            <div class="formula-box">
+                $$\frac{dT}{dt} = -k (T - T_{\text{amb}})$$
+            </div>
+            <ul>
+                <li><strong>$T(t)$:</strong> Temperatura del servidor en el instante $t$ (°C).</li>
+                <li><strong>$T_{\text{amb}}$:</strong> Temperatura ambiente del centro de datos (°C).</li>
+                <li><strong>$k$:</strong> Constante de transferencia térmica ($1/\text{min}$).</li>
+                <li><strong>Condición inicial:</strong> $T(0) = 80^\circ\text{C}$, $T_{\text{amb}} = 20^\circ\text{C}$, $k = 0.5\,\text{min}^{-1}$.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 2: FUNDAMENTO MATEMÁTICO -->
+        <section class="card">
+            <h2>2. Método Numérico: Euler Explícito</h2>
+            <p>
+                Discretizando la derivada mediante diferencias finitas hacia adelante con paso $h$, obtenemos la ecuación de recurrencia para calcular el siguiente estado:
+            </p>
+            <div class="formula-box">
+                $$T_{n+1} = T_n + h \cdot \left[ -k (T_n - T_{\text{amb}}) \right]$$
+            </div>
+            <p>
+                <strong>Criterio de Estabilidad Numérica:</strong> Para este modelo, la condición de estabilidad exige que $|1 - hk| < 1$, lo que equivale a $0 < h < 4$ para $k = 0.5$.
+            </p>
+        </section>
+
+        <!-- SECCIÓN 3: CALCULADORA INTERACTIVA -->
+        <section class="card">
+            <h2>3. Calculadora de Simulación</h2>
+            <form id="calc-form" onsubmit="event.preventDefault(); ejecutarSimulacion();">
+                <div class="grid-inputs">
+                    <div>
+                        <label for="t0">Temp. Inicial $T_0$ (°C):</label>
+                        <input type="number" id="t0" value="80" step="any" required>
+                    </div>
+                    <div>
+                        <label for="tamb">Temp. Ambiente $T_{\text{amb}}$ (°C):</label>
+                        <input type="number" id="tamb" value="20" step="any" required>
+                    </div>
+                    <div>
+                        <label for="k">Constante $k$ ($1/\text{min}$):</label>
+                        <input type="number" id="k" value="0.5" step="any" required>
+                    </div>
+                    <div>
+                        <label for="h">Paso de tiempo $h$ (min):</label>
+                        <input type="number" id="h" value="0.5" step="any" required>
+                    </div>
+                    <div>
+                        <label for="tfinal">Tiempo Final $t_{\text{final}}$ (min):</label>
+                        <input type="number" id="tfinal" value="2" step="any" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-calcular">Calcular Simulación</button>
+            </form>
+
+            <!-- ESTADO Y RESULTADOS -->
+            <div id="mensaje-estado" class="estado-box"></div>
+
+            <div id="contenedor-tabla" class="tabla-box">
+                <!-- Se genera dinámicamente con JS -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
