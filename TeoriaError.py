@@ -120,13 +120,14 @@ def ejecutar_auditoria(config):
 
 def imprimir_tabla(resultados):
     encabezado = f"{'escala':>8} {'tipo':>8} {'metodo':>8} {'centrado':>9} " \
-                 f"{'error_rel':>14} {'tiempo_ms':>10} {'estado':>10}"
+                 f"{'suma':>22} {'error_rel':>14} {'tiempo_ms':>10} {'estado':>10}"
     print(encabezado)
     print('-' * len(encabezado))
     for r in resultados:
         estado = 'cumple' if r['cumple'] else 'NO cumple'
         print(f"{r['escala']:>8.0e} {r['tipo_dato']:>8} {r['metodo']:>8} "
               f"{'sí' if r['centrado'] else 'no':>9} "
+              f"{r['suma']:>22.6f} "
               f"{r['error_rel'] * 100:>13.3e}% {r['tiempo_ms']:>10.2f} {estado:>10}")
 
 
@@ -153,5 +154,3 @@ if __name__ == '__main__':
     imprimir_tabla(resultados)
     guardar_csv(resultados, 'referencia_resultados.csv')
     print("\nResultados guardados en referencia_resultados.csv")
-    print("Compara la columna 'suma' de cada fila con la tabla de la página web:")
-    print("deberían coincidir, porque los datos de entrada son idénticos.")
